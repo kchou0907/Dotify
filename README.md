@@ -1,9 +1,10 @@
-# Dotify Homework 1 - Kevin Chou
-This is a rough layout of a music streaming app. None of the functions actually work, but it gives you a good idea of what it's going to look like
+# Dotify Homework 2 - Kevin Chou
+This is how the app will display songs. It features a mini player and multiple activities
 
 ## Extra Credit
-- User is not allowed to apply new username if the text field is empty
-- Using constraint layout, utilize a barrier
+- Long pressing on an item should delete that song on the list
+- When a user presses shuffle, the list should animate the changes using DiffUtil
 
 ## Pic of it Working
-![Home Screen](screenshots/pic.png)
+![Player Screen](screenshots/hw1.png)
+![Song List](screenshots/hw2.png)

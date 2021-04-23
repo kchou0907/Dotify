@@ -14,6 +14,11 @@ import kotlin.random.Random
 
 private const val SONG_KEY = "song"
 
+/*
+* Navigates to the Player Activity screen
+* @Param context Context - provides information on whatever activity the user is coming from
+* @Param songDeets Song - song object containing all the song details
+* */
 fun navPlayerActivity(context: Context, songDeets: Song) {
     val intent = Intent(context, PlayerActivity::class.java).apply {
         val bundle = Bundle().apply {

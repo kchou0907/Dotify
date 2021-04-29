@@ -14,6 +14,7 @@ class SongListActivity : AppCompatActivity() {
     lateinit var song: Song
     // the title of the activity
     val TITLE = "All Songs"
+    var miniplayerText: String = ""
 
     /*
     * Initializes the activity. This is the stuff that will happen when the activity first pops up
@@ -29,8 +30,16 @@ class SongListActivity : AppCompatActivity() {
 
             title = TITLE
 
+            if (savedInstanceState != null) {
+                with(savedInstanceState) {
+                    miniplayerText = getString("miniplayer")!!
+                }
+                currSong.text = miniplayerText
+            }
+
             adapter.onSongClickListener = { songDeets ->
-                currSong.text = root.context.getString(R.string.song_playing_format, songDeets.title, songDeets.artist)
+                miniplayerText = root.context.getString(R.string.song_playing_format, songDeets.title, songDeets.artist)
+                currSong.text = miniplayerText
                 song = songDeets
             }
 
@@ -48,6 +57,13 @@ class SongListActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState?.run {
+            putString("miniplayer", miniplayerText)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     fun showRemovedSong(song: Song) {

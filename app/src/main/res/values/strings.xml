@@ -2,4 +2,6 @@
     <string name="app_name">Dotify</string>
     <string name="song_playing_format">%s - %s</string>
     <string name="removed_song">%s was removed from the list</string>
+    <string name="song_count"> %s was played %d times </string>
+    <string name="play_count"> %d plays</string>
 </resources>

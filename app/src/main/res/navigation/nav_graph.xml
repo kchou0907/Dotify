@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/settingsFragment">
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="kchou97.dotify.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <argument
+            android:name="song"
+            app:argType="kchou97.dotify.SongDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="kchou97.dotify.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" >
+        <argument
+            android:name="song"
+            app:argType="kchou97.dotify.SongDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="kchou97.dotify.AboutFragment"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="kchou97.dotify.ProfileFragment"
+        android:label="ProfileFragment" />
+    <action
+        android:id="@+id/action_global_aboutFragment"
+        app:destination="@id/aboutFragment" />
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment" />
+    <action
+        android:id="@+id/action_global_statisticsFragment"
+        app:destination="@id/statisticsFragment" />
+</navigation>

@@ -3,13 +3,12 @@ package kchou97.dotify
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.os.Parcelable
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.ericchee.songdataprovider.Song
 import kchou97.dotify.databinding.ActivityPlayerBinding
-import kchou97.dotify.databinding.ActivitySongListBinding
-import kchou97.dotify.databinding.ItemSongBinding.inflate
+import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
 private const val SONG_KEY = "song"
@@ -32,25 +31,37 @@ fun navPlayerActivity(context: Context, songDeets: Song) {
 class PlayerActivity : AppCompatActivity() {
     private val randomNumber = Random.nextInt(1000, 10000)
     private var playNum = 0
+    private lateinit var binding: ActivityPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityPlayerBinding.inflate(layoutInflater).apply { setContentView(root) }
-        var submitIsVisible: Boolean = true;
+        binding = ActivityPlayerBinding.inflate(layoutInflater).apply { setContentView(root) }
+        val song: Song? = intent.getParcelableExtra<Song>(SONG_KEY)
 
         with (binding) {
 
-            playCount.text = randomNumber.toString() + " plays"
             playNum = randomNumber
-            val song: Song? = intent.getParcelableExtra<Song>(SONG_KEY)
+            if (savedInstanceState != null) {
+                with(savedInstanceState) {
+                    playNum = getInt("playCount")
+                }
+            }
+            playCount.text = root.context.getString(R.string.play_count, playNum)
 
-            submitUser.visibility = View.GONE
-            editUsername.visibility = View.GONE
+
+
+            var songDetails: SongDetails = SongDetails(
+                song = song,
+                count = playNum
+            )
 
             artist.text = song?.artist
             song?.largeImageID?.let { albumPic.setImageResource(it) }
             songTitle.text = song?.title
 
+            settings.setOnClickListener{
+                navSettingsActivity(this@PlayerActivity, songDetails)
+            }
 
             prev.setOnClickListener {
                 displayMessage("Skipping to previous track")
@@ -62,23 +73,16 @@ class PlayerActivity : AppCompatActivity() {
 
             play.setOnClickListener {
                 incrementCounter(playCount)
-            }
-
-            changeUser.setOnClickListener {
-                toggleEdit(submitUser, editUsername, changeUser, username, submitIsVisible)
-                submitIsVisible = !submitIsVisible
-            }
-
-            submitUser.setOnClickListener {
-                if (editUserName(editUsername, username)) {
-                    toggleEdit(submitUser, editUsername, changeUser, username, !submitIsVisible)
-                    submitIsVisible = !submitIsVisible
-                } else {
-                    displayMessage("Please submit a valid username")
-                }
+                songDetails.count++
             }
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState?.putInt("playCount", playNum)
+        super.onSaveInstanceState(outState)
+    }
+
     fun displayMessage(message: String) {
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show()
     }
@@ -86,29 +90,10 @@ class PlayerActivity : AppCompatActivity() {
         playNum++
         playCounter.text = playNum.toString() + " plays"
     }
-    fun editUserName(textInput: EditText, userfield: TextView): Boolean{
-        var newUsername = textInput.editableText
-        if (newUsername.length == 0) {
-            return false
-        } else {
-            userfield.text = newUsername
-            return true
-        }
-
-    }
-    fun toggleEdit(submitBtn: Button, textInput: EditText, editBtn: Button, userfield: TextView, submitIsVisible: Boolean) {
-        if (submitIsVisible) {
-            editBtn.visibility = View.GONE
-            userfield.visibility = View.GONE
-
-            submitBtn.visibility = View.VISIBLE
-            textInput.visibility = View.VISIBLE
-        } else {
-            editBtn.visibility = View.VISIBLE
-            userfield.visibility = View.VISIBLE
-
-            submitBtn.visibility = View.GONE
-            textInput.visibility = View.GONE
-        }
-    }
 }
+
+@Parcelize
+data class SongDetails(
+    val song: Song?,
+    var count: Int
+): Parcelable

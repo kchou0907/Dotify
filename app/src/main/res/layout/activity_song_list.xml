@@ -20,6 +20,7 @@
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_song" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/miniPlayer"
         android:elevation="5dp"

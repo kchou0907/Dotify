@@ -3,9 +3,12 @@ package kchou97.dotify
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.ericchee.songdataprovider.Song
 import com.ericchee.songdataprovider.SongDataProvider
+import kchou97.dotify.adapter.SongListAdapter
 import kchou97.dotify.databinding.ActivitySongListBinding
+import kotlinx.coroutines.launch
 
 
 class SongListActivity : AppCompatActivity() {
@@ -15,6 +18,8 @@ class SongListActivity : AppCompatActivity() {
     // the title of the activity
     val TITLE = "All Songs"
     var miniplayerText: String = ""
+    private val dotApp: DotifyApplication by lazy { application as DotifyApplication }
+    private val dataRepository by lazy { dotApp.dataRepository }
 
     /*
     * Initializes the activity. This is the stuff that will happen when the activity first pops up
@@ -25,6 +30,7 @@ class SongListActivity : AppCompatActivity() {
         val binding = ActivitySongListBinding.inflate(layoutInflater).apply { setContentView(root) }
 
         with(binding) {
+
             val adapter = SongListAdapter(SongDataProvider.getAllSongs())
             rvSongs.adapter = adapter
 
@@ -40,7 +46,8 @@ class SongListActivity : AppCompatActivity() {
             adapter.onSongClickListener = { songDeets ->
                 miniplayerText = root.context.getString(R.string.song_playing_format, songDeets.title, songDeets.artist)
                 currSong.text = miniplayerText
-                song = songDeets
+                dotApp.currSong = songDeets
+                song = dotApp.currSong
             }
 
             adapter.onSongLongClickListener = { song ->
@@ -53,14 +60,14 @@ class SongListActivity : AppCompatActivity() {
             }
             miniPlayer.setOnClickListener {
                 if(currSong.text.length > 0) {
-                    navPlayerActivity(this@SongListActivity, song)
+                    navPlayerActivity(this@SongListActivity)
                 }
             }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState?.run {
+        outState.run {
             putString("miniplayer", miniplayerText)
         }
         super.onSaveInstanceState(outState)

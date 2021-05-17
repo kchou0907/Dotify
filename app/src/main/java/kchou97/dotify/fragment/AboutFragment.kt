@@ -1,10 +1,11 @@
-package kchou97.dotify
+package kchou97.dotify.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kchou97.dotify.BuildConfig
 import kchou97.dotify.databinding.FragmentAboutBinding
 
 class AboutFragment : Fragment() {

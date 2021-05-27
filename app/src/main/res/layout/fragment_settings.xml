@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".SettingsFragment">
+    tools:context=".fragment.SettingsFragment">
 
     <Button
         android:id="@+id/profileBtn"
@@ -32,6 +32,15 @@
         android:text="Stats"
         app:layout_constraintTop_toBottomOf="@+id/aboutBtn"
         app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/notificationToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/statBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="New Song Notification"
         />
 
 

@@ -19,7 +19,7 @@ class SongListActivity : AppCompatActivity() {
     val TITLE = "All Songs"
     var miniplayerText: String = ""
     private val dotApp: DotifyApplication by lazy { application as DotifyApplication }
-    private val dataRepository by lazy { dotApp.dataRepository }
+    private val songUpdateManager by lazy { dotApp.songNotificationManager }
 
     /*
     * Initializes the activity. This is the stuff that will happen when the activity first pops up

@@ -4,4 +4,7 @@
     <string name="removed_song">%s was removed from the list</string>
     <string name="song_count"> %s was played %d times </string>
     <string name="play_count"> %d plays</string>
+    <string name="new_song_channel_description">This is a channel that notifies when an artist releases a new song</string>
+    <string name="notif_title"> %s just released a new song!!!</string>
+    <string name="notif_text">Listen to %s now on Dotify</string>
 </resources>
